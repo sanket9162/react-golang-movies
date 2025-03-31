@@ -5,6 +5,7 @@ import App from './App.jsx'
 import ErrorPage from './components/ErrorPage.jsx'
 import Home from './components/Home.jsx'
 import Movies from './components/Movies.jsx'
+import Movie from './components/Movie.jsx'
 import Genres from './components/Genres.jsx'
 import EditMovie from './components/EditMovie.jsx'
 import ManageCatalogue from './components/ManageCatalogue.jsx'
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/movies",
         element: <Movies/>,
+      },
+      {
+        path: "/movie/:id",
+        element: <Movie/>,
       },
       {
         path: "/genres",
