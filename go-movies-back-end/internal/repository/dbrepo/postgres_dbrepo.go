@@ -13,6 +13,10 @@ type PostresDBrepo struct{
 
 const dbTimeout = time.Second * 3
 
+func (m *PostresDBrepo) Connection() *sql.DB{
+	return m.DB
+}
+
 func (m *PostresDBrepo) AllMovies() ([]*models.Movie, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
