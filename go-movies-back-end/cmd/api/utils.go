@@ -36,9 +36,9 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data in
 	maxBytes := 1024 * 1024 // one megabytes
 	r.Body = http.MaxBytesReader(w, r.Body, int64(maxBytes))
 	
-	dec := json.Decoder(r.Body)
+	dec := json.NewDecoder(r.Body)
 
-	dec.DisallowUnknowsFields()
+	dec.DisallowUnknownFields()
 
 	err := dec.Decode(data)
 	if err != nil{
@@ -51,3 +51,17 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data in
 	}
 	 return nil
 }	
+
+func (app *application) errorJSON(w http.ResponseWriter, err error, status ...int) error {
+	statusCode := http.StatusBadRequest
+
+	if len(status) > 0 {
+		statusCode = status[0]
+	}
+
+	var payload JSONResponse
+	payload.Error = true
+	payload.Message = err.Error()
+
+	return app.writeJSON(w, statusCode, payload)
+}
