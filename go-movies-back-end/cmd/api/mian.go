@@ -33,7 +33,7 @@ func main(){
 	flag.StringVar(&app.JWTIssuer, "jwt-issuer", "example.com", "signing issuer")
 	flag.StringVar(&app.JWTAudience, "jwt-audience", "example.com", "signing audience")
 	flag.StringVar(&app.CookieDomain, "cookie-domain", "localhost", "cookie domain")
-	flag.StringVar(&app.Domain, "cookie-domain", "example.com", "domain")
+	flag.StringVar(&app.Domain, "domain", "example.com", "domain")
 	flag.Parse()
 
 	//connent to the database
