@@ -7,13 +7,13 @@ import (
 	"time"
 )
 
-type PostresDBrepo struct{
+type PostresDBrepo struct {
 	DB *sql.DB
 }
 
 const dbTimeout = time.Second * 3
 
-func (m *PostresDBrepo) Connection() *sql.DB{
+func (m *PostresDBrepo) Connection() *sql.DB {
 	return m.DB
 }
 
@@ -40,7 +40,7 @@ func (m *PostresDBrepo) AllMovies() ([]*models.Movie, error) {
 	defer rows.Close()
 
 	var movies []*models.Movie
-	for rows.Next(){
+	for rows.Next() {
 		var movie models.Movie
 		err := rows.Scan(
 			&movie.ID,
@@ -59,4 +59,29 @@ func (m *PostresDBrepo) AllMovies() ([]*models.Movie, error) {
 		movies = append(movies, &movie)
 	}
 	return movies, nil
+}
+
+func (m *PostresDBrepo) GetUserByEmail(email string) (*models.User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	query := `select id, email, first_name, last_name, password,
+				created_at, updated_at from users where email = $1`
+	var user models.User
+	row := m.DB.QueryRowContext(ctx, query, email)
+
+	err := row.Scan(
+		&user.ID,
+		&user.Email,
+		&user.FirstName,
+		&user.LastName,
+		&user.Password,
+		&user.CreatedAt,
+		&user.UpdateAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
