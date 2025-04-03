@@ -1,13 +1,12 @@
-const EditMovie = () => {
-    return(
-        <>
-        <div className="text-center">
-            <h2>EditMovie</h2>
-            <hr />
 
+const EditMovie = () => {
+
+    return(
+        <div>
+            <h2>Edit Movie</h2>
+            <hr />
         </div>
-        </>
     )
 }
 
-export default EditMovie
+export default EditMovie;

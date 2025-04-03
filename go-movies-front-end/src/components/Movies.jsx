@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Movies = () => {
-
     const [movies, setMovies] = useState([]);
 
-    useEffect(() => {
-        const headers = new Headers()
+    useEffect( () => {
+        const headers = new Headers();
         headers.append("Content-Type", "application/json");
 
         const requestOptions = {
@@ -15,44 +14,44 @@ const Movies = () => {
         }
 
         fetch(`http://localhost:8080/movies`, requestOptions)
-        .then((response)=> response.json())
-        .then((data)=>{
-            setMovies(data)
-        })
-        .catch(err =>{
-            console.log(err)
-        })
-    }, [])
+            .then((response) => response.json())
+            .then((data) => {
+                setMovies(data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+    }, []);
+
     return(
-        <>
-        <div className="text-center">
+        <div>
             <h2>Movies</h2>
             <hr />
             <table className="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Movies</th>
-                        <th>Release Date</th>                        
-                        <th>Rating</th>                        
+                        <th>Movie</th>
+                        <th>Release Date</th>
+                        <th>Rating</th>
                     </tr>
                 </thead>
                 <tbody>
                     {movies.map((m) => (
                         <tr key={m.id}>
                             <td>
-                                <Link to={`/movie/${m.id}`}>
-                                {m.title}
+                                <Link to={`/movies/${m.id}`}>
+                                    {m.title}
                                 </Link>
                             </td>
                             <td>{m.release_date}</td>
                             <td>{m.mpaa_rating}</td>
-                        </tr>
+                        </tr>    
                     ))}
                 </tbody>
             </table>
         </div>
-        </>
     )
 }
 
-export default Movies
+export default Movies;

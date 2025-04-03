@@ -1,14 +1,12 @@
 
 const ManageCatalogue = () => {
-    return(
-        <>
-        <div className="text-center">
-            <h2>ManageCatalogue</h2>
-            <hr />
 
+    return(
+        <div>
+            <h2>Manage Catalogue</h2>
+            <hr />
         </div>
-        </>
     )
 }
 
-export default ManageCatalogue
+export default ManageCatalogue;

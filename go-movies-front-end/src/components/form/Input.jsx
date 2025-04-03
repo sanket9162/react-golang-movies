@@ -1,13 +1,13 @@
-import { forwardRef } from "react"
-import Login from "../Login"
+import { forwardRef } from "react";
 
 const Input = forwardRef((props, ref) => {
     return (
         <div className="mb-3">
-            <label htmlFor={props.name} className="from-label">
+            <label htmlFor={props.name} className="form-label">
                 {props.title}
             </label>
-            <input type={props.type} 
+            <input
+                type={props.type}
                 className={props.className}
                 id={props.name}
                 ref={ref}
@@ -22,4 +22,4 @@ const Input = forwardRef((props, ref) => {
     )
 })
 
-export default Input
+export default Input;

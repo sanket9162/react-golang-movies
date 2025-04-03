@@ -1,18 +1,21 @@
-import { useState } from "react"
-import Input from "./from/input"
-import { useNavigate, useOutletContext } from "react-router-dom"
+import { useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import Input from "./form/Input";
 
 const Login = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const {setJwtToken} = useOutletContext()
-    const {setAlertClassName} = useOutletContext()
-    const {setAlertMessage} = useOutletContext()
-    const navigate = useNavigate()
-    
+    const { setJwtToken } = useOutletContext();
+    const { setAlertClassName } = useOutletContext();
+    const { setAlertMessage } = useOutletContext();
+
+    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
+        
+        // build the request payload
         let payload = {
             email: email,
             password: password,
@@ -42,54 +45,46 @@ const Login = () => {
             })
             .catch(error => {
                 setAlertClassName("alert-danger");
-                setAlertMessage("something wroong");
-                throw(error)
+                setAlertMessage(error);
             })
-
-
-        // console.log(email/password)
-
-        // if (email === "admin@sanket.com"){
-        //     setJwtToken("abc")
-        //     setAlertClassName("d-none")
-        //     setAlertMessage("")
-        //     navigate("/")
-        // }else{
-        //     setAlertClassName("alert-danger")
-        //     setAlertMessage("Invalid credentials")
-        // }
     }
 
     return(
-        <>
         <div className="col-md-6 offset-md-3">
             <h2>Login</h2>
             <hr />
-        <form onSubmit={handleSubmit}>
-            <Input
-            title="Email Address"
-            type="email"
-            className="form-control"
-            name="email"
-            autoComplete="email-new"
-            onChange={(event) => setEmail(event.target.value)}
 
-            />
-            <Input
-            title="Passwrod"
-            type="Passwrod"
-            className="form-control"
-            name="password"
-            autoComplete="Passwrod-new"
-            onChange={(event) => setPassword(event.target.value)}
+            <form onSubmit={handleSubmit}>
+                <Input
+                    title="Email Address"
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    autoComplete="email-new"
+                    onChange={(event) => setEmail(event.target.value)}
+                />
 
-            />
-            <input type="submit" className="btn btn-primary" value="Login" />
+                <Input
+                    title="Password"
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    autoComplete="password-new"
+                    onChange={(event) => setPassword(event.target.value)}
+                />
 
-        </form>
+                <hr />
+
+                <input 
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Login"
+                />
+
+
+            </form>
         </div>
-        </>
     )
 }
 
-export default Login
+export default Login;
