@@ -13,6 +13,7 @@ const Movie = () => {
       method: "GET",
       headers: headers,
     };
+
     fetch(`/movies/${id}`, requestOptions)
       .then((response) => response.json())
       .then((data) => {
@@ -46,7 +47,7 @@ const Movie = () => {
       ))}
       <hr />
 
-      {movie.Image !== "" && (
+      {movie.image !== "" && (
         <div className="mb-3">
           <img
             src={`https://image.tmdb.org/t/p/w200/${movie.image}`}
