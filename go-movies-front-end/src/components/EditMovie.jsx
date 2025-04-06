@@ -3,7 +3,8 @@ import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import Input from "./form/Input";
 import Select from "./form/Select";
 import TextArea from "./form/TextArea";
-import CheckBox from "./form/Checkbox";
+import Checkbox from "./form/Checkbox";
+import Swal from "sweetalert2";
 
 const EditMovie = () => {
   const navigate = useNavigate();
@@ -94,6 +95,37 @@ const EditMovie = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    let errors = [];
+    let required = [
+      { field: movie.title, name: "title" },
+      { field: movie.release_date, name: "release_date" },
+      { field: movie.runtime, name: "runtime" },
+      { field: movie.description, name: "description" },
+      { field: movie.mpaa_rating, name: "mpaa_rating" },
+    ];
+
+    required.forEach(function (obj) {
+      if (obj.field === "") {
+        errors.push(obj.name);
+      }
+    });
+
+    if (movie.genres_array.length === 0) {
+      Swal.fire({
+        title: "Error!",
+        text: "You must choose at least one genre!",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      errors.push("genres");
+    }
+
+    setErrors(errors);
+
+    if (errors.length > 0) {
+      return false;
+    }
   };
 
   const handleChange = () => (event) => {
@@ -120,6 +152,7 @@ const EditMovie = () => {
     } else {
       tmpIDs.push(parseInt(event.target.value, 10));
     }
+
     setMovie({
       ...movie,
       genres_array: tmpIDs,
@@ -130,7 +163,7 @@ const EditMovie = () => {
     <div>
       <h2>Add/Edit Movie</h2>
       <hr />
-      <pre>{JSON.stringify(movie, null, 3)}</pre>
+      {/* <pre>{JSON.stringify(movie, null, 3)}</pre> */}
 
       <form onSubmit={handleSubmit}>
         <input type="hidden" name="id" value={movie.id} id="id"></input>
@@ -187,13 +220,15 @@ const EditMovie = () => {
           errorMsg={"Please enter a description"}
           errorDiv={hasError("description") ? "text-danger" : "d-none"}
         />
+
         <hr />
+
         <h3>Genres</h3>
 
         {movie.genres && movie.genres.length > 1 && (
           <>
             {Array.from(movie.genres).map((g, index) => (
-              <CheckBox
+              <Checkbox
                 title={g.genre}
                 name={"genre"}
                 key={index}
@@ -205,6 +240,10 @@ const EditMovie = () => {
             ))}
           </>
         )}
+
+        <hr />
+
+        <button className="btn btn-primary">Save</button>
       </form>
     </div>
   );
